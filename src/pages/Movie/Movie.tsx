@@ -21,6 +21,7 @@ export function MoviePage() {
         <>
           <h1>{data?.title}</h1>
           <Spacer height={20} />
+          <div>{data?.overview}</div>
         </>
       )}
     </Layout>

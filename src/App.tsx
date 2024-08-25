@@ -1,16 +1,11 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { MoviesListPage } from "./pages/MoviesList";
 import { FavoritesPage } from "./pages/Favorites/Favorites";
 import { MoviePage } from "./pages/Movie";
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: { throwOnError: true },
-  },
-});
+import { queryClient } from "./requests/queryClient";
 
 function Main() {
   return (
