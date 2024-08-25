@@ -35,14 +35,17 @@ interface ApiListResponse<T> {
   total_results: number;
 }
 
-export async function getFavoriteList() {
+export async function getFavoriteList(): Promise<ApiListResponse<ClientMovie>> {
   const accountId = await getAccountId();
   const res = await fetch(
     `https://api.themoviedb.org/3/account/${accountId}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`,
     { headers: { Authorization: `Bearer ${token}` } },
   );
   const result = (await res.json()) as ApiListResponse<Movie>;
-  return result;
+  return {
+    ...result,
+    results: result.results.map((item) => ({ ...item, is_favorite: true })),
+  };
 }
 
 async function withFavoriteStatus(

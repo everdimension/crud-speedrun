@@ -1,12 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { getFavoriteList } from "~/requests/movie-api";
+import { useFavoritesQuery } from "~/requests/movie-queries";
 
 function FavoritesCount() {
-  const { data } = useQuery({
-    queryKey: ["getFavoriteList"],
-    queryFn: () => getFavoriteList(),
-  });
+  const { data } = useFavoritesQuery();
   return data?.total_results == null ? null : (
     <span>({data?.total_results})</span>
   );
