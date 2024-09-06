@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import confetti from "canvas-confetti";
 import { useFavoriteMovieMutation } from "~/requests/movie-queries";
 
 function HeartIcon({
@@ -36,14 +37,66 @@ function HeartIcon({
 function LikeButton({
   filled,
   style,
+  onClick,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
   filled: boolean;
 }) {
+  const ref = useRef<HTMLCanvasElement>(null);
+  const confettiRef = useRef<ReturnType<(typeof confetti)["create"]> | null>(
+    null,
+  );
+  useEffect(() => {
+    const canvas = ref.current;
+    if (canvas) {
+      confettiRef.current = confetti.create(canvas, {
+        resize: true,
+        disableForReducedMotion: true,
+      });
+    }
+  }, []);
   return (
-    <button {...props} style={{ ...style, backgroundColor: "transparent" }}>
-      <HeartIcon filled={filled} />
-    </button>
+    <div style={{ position: "relative", display: "grid" }}>
+      <canvas
+        ref={ref}
+        style={{
+          pointerEvents: "none",
+          width: 200,
+          height: 200,
+          position: "absolute",
+          placeSelf: "center",
+        }}
+      />
+      <button
+        {...props}
+        onClick={(event) => {
+          onClick?.(event);
+          if (filled) {
+            return;
+          }
+          confettiRef.current?.({
+            spread: 300,
+            colors: [
+              "#fa5252",
+              "#f03e3e",
+              "#e03131",
+              "#c92a2a",
+              "#b02525",
+              "#962020",
+            ],
+            particleCount: 20,
+            scalar: 0.8,
+            ticks: 50,
+            gravity: 0.1,
+            decay: 0.8,
+            startVelocity: 10,
+          });
+        }}
+        style={{ ...style, backgroundColor: "transparent" }}
+      >
+        <HeartIcon filled={filled} />
+      </button>
+    </div>
   );
 }
 
