@@ -26,7 +26,16 @@ function Main() {
 export function App() {
   return (
     <ErrorBoundary
-      fallback={<div style={{ placeSelf: "center" }}>Oops! App crashed</div>}
+      fallbackRender={({ error }) => (
+        <div style={{ placeSelf: "center", textAlign: "center" }}>
+          <div>Oops! App crashed</div>
+          {error?.message ? (
+            <div>
+              <small>{error.message}</small>
+            </div>
+          ) : null}
+        </div>
+      )}
     >
       <QueryClientProvider client={queryClient}>
         <Main />
