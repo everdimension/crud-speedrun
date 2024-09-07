@@ -43,9 +43,8 @@ function LikeButton({
   filled: boolean;
 }) {
   const ref = useRef<HTMLCanvasElement>(null);
-  const confettiRef = useRef<ReturnType<(typeof confetti)["create"]> | null>(
-    null,
-  );
+  type ConfettiFn = ReturnType<(typeof confetti)["create"]>;
+  const confettiRef = useRef<ConfettiFn | null>(null);
   useEffect(() => {
     const canvas = ref.current;
     if (canvas) {
@@ -69,8 +68,13 @@ function LikeButton({
       />
       <button
         {...props}
+        onTransitionEnd={(event) => {
+          event.currentTarget.style.transform = "scale(1)";
+        }}
         onClick={(event) => {
           onClick?.(event);
+          const btn = event.currentTarget;
+          btn.style.transform = filled ? "scale(0.8)" : "scale(1.2)";
           if (filled) {
             return;
           }
@@ -92,7 +96,12 @@ function LikeButton({
             startVelocity: 10,
           });
         }}
-        style={{ ...style, backgroundColor: "transparent" }}
+        style={{
+          ...style,
+          backgroundColor: "transparent",
+          transform: "scale(1)",
+          transition: "transform 0.15s",
+        }}
       >
         <HeartIcon filled={filled} />
       </button>
