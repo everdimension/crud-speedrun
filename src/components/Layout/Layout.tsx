@@ -11,7 +11,7 @@ function FavoritesCount() {
 export function Layout({ children }: React.PropsWithChildren) {
   const MAX_WIDTH = 800;
   return (
-    <div style={{ paddingBottom: 80 }}>
+    <div style={{ display: "grid", gridTemplateRows: "auto 1fr auto" }}>
       <div
         style={{ borderBottom: "1px solid var(--surface-2)", paddingBlock: 12 }}
       >
@@ -46,9 +46,34 @@ export function Layout({ children }: React.PropsWithChildren) {
       </div>
 
       <div
-        style={{ maxWidth: MAX_WIDTH, marginInline: "auto", paddingInline: 16 }}
+        style={{
+          width: "100%",
+          maxWidth: MAX_WIDTH,
+          marginInline: "auto",
+          paddingInline: 16,
+        }}
       >
         {children}
+      </div>
+      <div
+        style={{
+          borderTop: "1px solid var(--surface-2)",
+          paddingBlock: 12,
+          marginTop: 80,
+        }}
+      >
+        <footer
+          style={{
+            width: "100%",
+            maxWidth: MAX_WIDTH,
+            marginInline: "auto",
+            paddingInline: 16,
+            textAlign: "end",
+            fontSize: "0.8em",
+          }}
+        >
+          Movie Database
+        </footer>
       </div>
     </div>
   );
