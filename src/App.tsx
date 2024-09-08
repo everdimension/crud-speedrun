@@ -7,9 +7,11 @@ import { FavoritesPage } from "./pages/Favorites/Favorites";
 import { MoviePage } from "./pages/Movie";
 import { queryClient } from "./requests/queryClient";
 
+const BASE = import.meta.env.VITE_BASE as string | undefined;
+
 function Main() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={BASE || undefined}>
       <Routes>
         <Route path="/" element={<MoviesListPage />} />
         <Route path="/movies/:id" element={<MoviePage />} />

@@ -7,12 +7,15 @@
     "start": "npm run dev",
     "dev": "vite",
     "build": "tsc && vite build",
+    "predeploy": "tsc && VITE_BASE=/crud-speedrun/ vite build --base=/crud-speedrun/ --outDir dist-pages",
+    "deploy": "gh-pages --dist dist-pages",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.49.2",
     "canvas-confetti": "^1.9.3",
+    "gh-pages": "^6.1.1",
     "open-props": "^1.7.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
