@@ -68,13 +68,14 @@ function LikeButton({
       />
       <button
         {...props}
-        onTransitionEnd={(event) => {
-          event.currentTarget.style.transform = "scale(1)";
-        }}
         onClick={(event) => {
           onClick?.(event);
           const btn = event.currentTarget;
-          btn.style.transform = filled ? "scale(0.8)" : "scale(1.2)";
+          const to = filled ? "scale(0.8)" : "scale(1.2)";
+          btn.animate(
+            { transform: ["scale(1)", to, "scale(1)"] },
+            { duration: 300, easing: "ease-out" },
+          );
           if (filled) {
             return;
           }
@@ -99,8 +100,6 @@ function LikeButton({
         style={{
           ...style,
           backgroundColor: "transparent",
-          transform: "scale(1)",
-          transition: "transform 0.15s",
         }}
       >
         <HeartIcon filled={filled} />

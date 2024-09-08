@@ -12,13 +12,12 @@ function MoviesList({
   source: "popular" | "trending" | null;
   search: string | null;
 }) {
-  const { data, isLoading, isFetching } = useMoviesQuery({ source, search });
+  const { data, isLoading } = useMoviesQuery({ source, search });
   if (isLoading) {
     return <p>loading...</p>;
   }
-  console.log({ isFetching });
   return (
-    <div style={{ display: "grid", gap: 12, opacity: isFetching ? 0.7 : 1 }}>
+    <div style={{ display: "grid", gap: 12 }}>
       {data?.results.map((result) => {
         return <MovieListItem key={result.id} movie={result} />;
       })}
