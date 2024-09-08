@@ -2,10 +2,10 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { getMovies, addToFavourite, getFavoriteList } from "./movie-api";
 import { queryClient } from "./queryClient";
 
-export function useMoviesQuery() {
+export function useMoviesQuery(params: Parameters<typeof getMovies>[0]) {
   return useQuery({
-    queryKey: ["getMovies"],
-    queryFn: () => getMovies(),
+    queryKey: ["getMovies", params],
+    queryFn: () => getMovies(params),
   });
 }
 

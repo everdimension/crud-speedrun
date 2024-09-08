@@ -60,9 +60,22 @@ async function withFavoriteStatus(
   return { ...items, results };
 }
 
-export async function getMovies(): Promise<ApiListResponse<ClientMovie>> {
-  // const res = await fetch("https://api.themoviedb.org/3/movie/popular", {
-  const res = await fetch("https://api.themoviedb.org/3/trending/movie/day", {
+export async function getMovies({
+  source,
+  search,
+}: {
+  source: "popular" | "trending";
+  search?: string | null;
+}): Promise<ApiListResponse<ClientMovie>> {
+  const SEARCH_URL = "https://api.themoviedb.org/3/search/movie";
+  const sourceToUrl = {
+    popular: "https://api.themoviedb.org/3/movie/popular",
+    trending: "https://api.themoviedb.org/3/trending/movie/day",
+  };
+  const movieListUrl = sourceToUrl[source];
+  const baseUrl = search ? SEARCH_URL : movieListUrl;
+  const url = search ? `${baseUrl}?query=${search}` : baseUrl;
+  const res = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
