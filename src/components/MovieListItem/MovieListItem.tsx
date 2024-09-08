@@ -5,7 +5,9 @@ import { ReleaseYear } from "./ReleaseYear";
 
 export function MovieListItem({ movie }: { movie: ClientMovie }) {
   const title = movie.title || movie.name || "<Unknown>";
-  const releaseYear = Number(movie.release_date.split("-")[0]);
+  const releaseYear = movie.release_date
+    ? Number(movie.release_date.split("-")[0])
+    : null;
   return (
     <div
       key={movie.id}
@@ -26,11 +28,23 @@ export function MovieListItem({ movie }: { movie: ClientMovie }) {
       </div>
       <div style={{ flexBasis: "300px" }}>
         <Link to={`/movies/${movie.id}`}>{title}</Link>{" "}
-        <small>
-          <ReleaseYear year={releaseYear} />
-        </small>
-        <div style={{ fontSize: "0.8em", color: "var(--gray-7)" }}>
-          {movie.overview.slice(0, 30)}
+        {releaseYear ? (
+          <small>
+            <ReleaseYear year={releaseYear} />
+          </small>
+        ) : null}
+        <div
+          style={{
+            fontSize: "0.7em",
+            color: "var(--gray-7)",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            display: "-webkit-box",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {movie.overview}
         </div>
       </div>
       <div style={{ flexShrink: 0 }}>

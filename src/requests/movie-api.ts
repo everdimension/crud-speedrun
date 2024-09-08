@@ -64,7 +64,7 @@ export async function getMovies({
   source,
   search,
 }: {
-  source: "popular" | "trending";
+  source: "popular" | "trending" | null;
   search?: string | null;
 }): Promise<ApiListResponse<ClientMovie>> {
   const SEARCH_URL = "https://api.themoviedb.org/3/search/movie";
@@ -72,9 +72,12 @@ export async function getMovies({
     popular: "https://api.themoviedb.org/3/movie/popular",
     trending: "https://api.themoviedb.org/3/trending/movie/day",
   };
-  const movieListUrl = sourceToUrl[source];
+  const movieListUrl = source ? sourceToUrl[source] : null;
   const baseUrl = search ? SEARCH_URL : movieListUrl;
   const url = search ? `${baseUrl}?query=${search}` : baseUrl;
+  if (!url) {
+    throw new Error('Either "source" or "search" parameter is required');
+  }
   const res = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
   });

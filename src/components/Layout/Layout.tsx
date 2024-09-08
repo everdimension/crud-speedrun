@@ -23,8 +23,22 @@ export function Layout({ children }: React.PropsWithChildren) {
           }}
         >
           <div style={{ display: "flex", gap: 12 }}>
-            <Link to="/">Movies</Link>
-            <Link to="/favorites">
+            <Link
+              to="/"
+              style={{
+                color: "var(--link)",
+                textDecorationColor: "var(--indigo-2)",
+              }}
+            >
+              Movies
+            </Link>
+            <Link
+              to="/favorites"
+              style={{
+                color: "var(--link)",
+                textDecorationColor: "var(--indigo-2)",
+              }}
+            >
               Favorites <FavoritesCount />
             </Link>
           </div>

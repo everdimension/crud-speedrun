@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { Spacer } from "structure-kit";
 import { ConnectedFavoriteButton } from "~/components/ConnectedFavoriteButton";
 import { ReleaseYear } from "~/components/MovieListItem/ReleaseYear";
+import { DocumentTitle } from "~/components/DocumentTitle";
 
 export function MoviePage() {
   const { id } = useParams<{ id: string }>();
@@ -14,8 +15,10 @@ export function MoviePage() {
     queryKey: ["getMovieById", id],
     queryFn: () => getMovieById(id),
   });
+  const movieTitle = data?.title || `Movie #${id}`;
   return (
     <Layout>
+      <DocumentTitle title={movieTitle} />
       <Spacer height={20} />
       {isLoading ? (
         <p>loading movie...</p>
@@ -23,17 +26,26 @@ export function MoviePage() {
         <div>no data</div>
       ) : (
         <>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <h1 style={{ fontSize: "clamp(2rem, 2rem + 4vw, 3.5rem)" }}>
               {data.title}
             </h1>
-            <ConnectedFavoriteButton
-              style={{ flexShrink: 0 }}
-              movieId={data.id}
-              isFavorite={data.is_favorite}
-            />
+            <div style={{ flexShrink: 0 }}>
+              <ConnectedFavoriteButton
+                movieId={data.id}
+                isFavorite={data.is_favorite}
+              />
+            </div>
           </div>
-          <ReleaseYear year={Number(data.release_date.split("-")[0])}/>
+          {data.release_date ? (
+            <ReleaseYear year={Number(data.release_date.split("-")[0])} />
+          ) : null}
           <Spacer height={20} />
           <div style={{ display: "flex", justifyContent: "center" }}>
             <img
